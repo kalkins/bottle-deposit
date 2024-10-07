@@ -4,11 +4,10 @@ import com.sindrestephansen.bottle_deposit.model.deposit.DepositRequest
 import com.sindrestephansen.bottle_deposit.model.deposit.DepositResult
 import com.sindrestephansen.bottle_deposit.model.deposit.DepositSessionID
 import com.sindrestephansen.bottle_deposit.model.deposit.DepositType
-import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
-class MemoryStorage(
-    private val logger: Logger,
-) : BottleDepositStorage {
+class MemoryStorage : BottleDepositStorage {
+    private val logger = LoggerFactory.getLogger(javaClass)
     private val sessions: MutableMap<DepositSessionID, MutableList<DepositType>> = mutableMapOf()
 
     override fun initSession(): DepositSessionID {

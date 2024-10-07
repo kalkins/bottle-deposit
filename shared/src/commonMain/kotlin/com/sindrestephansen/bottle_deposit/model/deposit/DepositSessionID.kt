@@ -1,9 +1,12 @@
 package com.sindrestephansen.bottle_deposit.model.deposit
 
+import kotlinx.serialization.Serializable
+
 /**
  * An ID that identifies a deposit session.
  */
-class DepositSessionID private constructor(val value: String) {
+@Serializable
+class DepositSessionID(val value: String) {
     companion object {
         private var counter = 1
 
