@@ -162,4 +162,27 @@ class MemoryStorageTest {
         assertEquals(expected1, result1.sum)
         assertEquals(expected2, result2.sum)
     }
+
+    @Test
+    fun testState() {
+        val storage = MemoryStorage()
+        val session = storage.initSession()
+
+        val deposits = randomDeposits()
+        var expectedRunningTotal = 0
+
+        deposits
+            .forEach { type ->
+                storage.deposit(
+                    DepositRequest(
+                        session = session,
+                        type = type,
+                    )
+                )
+
+                expectedRunningTotal += type.value
+
+                assertEquals(expectedRunningTotal, storage.state(session).sum)
+            }
+    }
 }

@@ -1,7 +1,7 @@
 package com.sindrestephansen.bottle_deposit.storage
 
 import com.sindrestephansen.bottle_deposit.model.deposit.DepositRequest
-import com.sindrestephansen.bottle_deposit.model.deposit.DepositResult
+import com.sindrestephansen.bottle_deposit.model.deposit.DepositSessionState
 import com.sindrestephansen.bottle_deposit.model.deposit.DepositSessionID
 
 /**
@@ -16,10 +16,15 @@ interface BottleDepositStorage {
     /**
      * Add a deposit to the session given by the request.
      */
-    fun deposit(request: DepositRequest)
+    fun deposit(request: DepositRequest): DepositSessionState
+
+    /**
+     * Retrieves the current state of the session.
+     */
+    fun state(session: DepositSessionID): DepositSessionState
 
     /**
      * End a deposit session and return the total sum of the deposited items.
      */
-    fun endSession(session: DepositSessionID): DepositResult
+    fun endSession(session: DepositSessionID): DepositSessionState
 }
