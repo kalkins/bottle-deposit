@@ -61,6 +61,7 @@ fun App(
             ReceiptPane(
                 paneModifier,
                 currentReceipt = receipt,
+                canPrintReceipt = sessionState != null,
                 onPrintReceipt = {
                     scope.launch {
                         viewModel.getReceipt()

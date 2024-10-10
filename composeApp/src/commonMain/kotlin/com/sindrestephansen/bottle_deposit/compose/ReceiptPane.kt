@@ -16,6 +16,7 @@ fun ReceiptPane(
     modifier: Modifier,
     onPrintReceipt: () -> Unit,
     currentReceipt: DepositSessionState?,
+    canPrintReceipt: Boolean,
 ) {
     Column(
         modifier = modifier,
@@ -25,6 +26,7 @@ fun ReceiptPane(
         Button(
             modifier = Modifier.padding(16.dp),
             onClick = { onPrintReceipt() },
+            enabled = canPrintReceipt,
         ) {
             Text("Print receipt")
         }
