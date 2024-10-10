@@ -32,6 +32,14 @@ class MemoryStorage : BottleDepositStorage {
     override fun state(session: DepositSessionID): DepositSessionState =
         sessions[session] ?: throw IllegalArgumentException("Unknown deposit session $session")
 
-    override fun endSession(session: DepositSessionID): DepositSessionState =
-        sessions.remove(session) ?: throw IllegalArgumentException("Unknown deposit session $session")
+    override fun endSession(session: DepositSessionID): DepositSessionState {
+        val state = sessions.remove(session)
+
+        if (state != null) {
+            logger.info("Session ${session}: Printing receipt for NOK ${state.sum}")
+            return state
+        } else {
+            throw IllegalArgumentException("Unknown deposit session $session")
+        }
+    }
 }
