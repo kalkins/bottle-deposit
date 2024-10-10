@@ -30,10 +30,10 @@ fun DepositPane(
         DepositType.entries.forEach { type ->
             Button(
                 onClick = {
-                    val disabledDuration = onDeposit(type)
+                    enabled = false
 
                     scope.launch {
-                        enabled = false
+                        val disabledDuration = onDeposit(type)
                         delay(disabledDuration)
                         enabled = true
                     }

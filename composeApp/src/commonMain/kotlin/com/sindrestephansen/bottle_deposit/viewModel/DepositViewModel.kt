@@ -37,11 +37,11 @@ class DepositViewModel(
 
     suspend fun deposit(type: DepositType) {
         try {
-            _sessionState.update {
-                client.deposit(
-                    DepositRequest(getSession(), type)
-                )
-            }
+            val newState = client.deposit(
+                DepositRequest(getSession(), type)
+            )
+
+            _sessionState.update { newState }
 
             _error.update { null }
         } catch (e: Exception) {
@@ -53,9 +53,8 @@ class DepositViewModel(
     suspend fun getReceipt() {
         sessionState.value?.let { state ->
             try {
-                _receipt.update {
-                    client.endSession(state.session)
-                }
+                val lastState = client.endSession(state.session)
+                _receipt.update { lastState }
                 _error.update { null }
             } catch (e: Exception) {
                 _error.update { e.message }
