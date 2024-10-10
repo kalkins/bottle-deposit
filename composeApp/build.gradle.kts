@@ -31,7 +31,8 @@ kotlin {
     
     sourceSets {
         val desktopMain by getting
-        
+        val wasmJsMain by getting
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -40,12 +41,26 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
+            implementation(libs.androidx.lifecycle.viewmodel.compose)
             implementation(libs.androidx.lifecycle.runtime.compose)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
             implementation(projects.shared)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.cio)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.json)
+        }
+        wasmJsMain.dependencies {
+            implementation(libs.ktor.client.core.wasm)
+            implementation(libs.ktor.client.js.wasm)
+            implementation(libs.ktor.client.content.negotiation.wasm)
+            implementation(libs.ktor.serialization.json.wasm)
         }
     }
 }
