@@ -11,7 +11,7 @@ import io.ktor.http.*
 class BaseDepositAPIClient(
     private val client: HttpClient,
 ) : DepositAPIClient {
-    override suspend fun initSession(): DepositSessionID =
+    override suspend fun initSession(): DepositSessionState =
         client.get("/api/session/init").body()
 
     override suspend fun deposit(request: DepositRequest): DepositSessionState =

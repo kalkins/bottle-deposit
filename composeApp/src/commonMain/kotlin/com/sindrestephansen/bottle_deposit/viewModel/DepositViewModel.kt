@@ -13,8 +13,6 @@ import kotlinx.coroutines.flow.update
 class DepositViewModel(
     private val client: DepositAPIClient
 ) : ViewModel() {
-    private val session = MutableStateFlow<DepositSessionID?>(null)
-
     private val _sessionState = MutableStateFlow<DepositSessionState?>(null)
     val sessionState = _sessionState.asStateFlow()
 
@@ -25,13 +23,14 @@ class DepositViewModel(
     val error = _error.asStateFlow()
 
     private suspend fun getSession(): DepositSessionID {
-        session.value.let { id ->
-            if (id == null) {
-                val newId = client.initSession()
-                session.compareAndSet(null, newId)
-                return newId
+        sessionState.value.let { state ->
+            return if (state == null) {
+                val newState = client.initSession()
+                _sessionState.compareAndSet(null, newState)
+
+                newState.session
             } else {
-                return id
+                state.session
             }
         }
     }
@@ -46,17 +45,16 @@ class DepositViewModel(
 
             _error.update { null }
         } catch (e: Exception) {
-            session.update { null }
             _sessionState.update { null }
             _error.update { e.message }
         }
     }
 
     suspend fun getReceipt() {
-        session.value?.let { id ->
+        sessionState.value?.let { state ->
             try {
                 _receipt.update {
-                    client.endSession(id)
+                    client.endSession(state.session)
                 }
                 _error.update { null }
             } catch (e: Exception) {
@@ -64,7 +62,6 @@ class DepositViewModel(
             }
 
             _sessionState.update { null }
-            session.update { null }
         }
     }
 }
