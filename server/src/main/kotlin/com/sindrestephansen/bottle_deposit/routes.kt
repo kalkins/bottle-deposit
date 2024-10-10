@@ -11,11 +11,14 @@ fun Routing.bottleDepositRoutes(
     storage: BottleDepositStorage,
 ) {
     get("/api/session/init") {
-        call.respond(HttpStatusCode.OK, storage.initSession().value)
+        call.respond(HttpStatusCode.OK, storage.initSession())
     }
 
     post("/api/session/deposit") {
-        storage.deposit(call.receive())
+        call.respond(
+            HttpStatusCode.OK,
+            storage.deposit(call.receive()),
+        )
     }
 
     post("/api/session/end") {
