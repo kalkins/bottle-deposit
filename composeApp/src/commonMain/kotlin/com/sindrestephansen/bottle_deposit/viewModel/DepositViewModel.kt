@@ -26,9 +26,15 @@ class DepositViewModel(
         sessionState.value.let { state ->
             return if (state == null) {
                 val newState = client.initSession()
-                _sessionState.compareAndSet(null, newState)
 
-                newState.session
+                if (_sessionState.compareAndSet(null, newState)) {
+                    newState.session
+                } else {
+                    // Another session was started while waiting.
+                    // Use that session and close this one.
+                    client.endSession(newState.session)
+                    getSession()
+                }
             } else {
                 state.session
             }
