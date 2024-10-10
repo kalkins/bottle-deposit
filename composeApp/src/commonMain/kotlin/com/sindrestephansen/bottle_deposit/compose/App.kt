@@ -14,6 +14,7 @@ import com.sindrestephansen.bottle_deposit.viewModel.DepositViewModel
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 @Composable
@@ -45,8 +46,8 @@ fun App(
                     }
 
                     when (it) {
-                        DepositType.Bottle -> 2.seconds
-                        DepositType.Can -> 1.seconds
+                        DepositType.Bottle -> 1.seconds
+                        DepositType.Can -> 500.milliseconds
                     }
                 },
             )
