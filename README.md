@@ -7,9 +7,6 @@ and shared code in the `/shared` module.
 
 ## Running the code
 
-Start the backend with the command `./gradlew :server:run`.
+Start the backend with the command `./gradlew :server:run`. An experimental WebAssembly GUI is available at `http://localhost:12001/`.
 
-Start the native GUI with the command `./gradlew :composeApp:run`.
-
-Start the web GUI with the command `./gradlew :composeApp:wasmJsBrowserRun`. A URL to the GUI will be printed when it's ready.
-This is a work-in-progress, and will probably not function correctly.
+Start the desktop GUI with the command `./gradlew :composeApp:run`.
