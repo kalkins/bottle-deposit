@@ -3,6 +3,7 @@ package com.sindrestephansen.bottle_deposit.storage
 import com.sindrestephansen.bottle_deposit.model.deposit.DepositRequest
 import com.sindrestephansen.bottle_deposit.model.deposit.DepositSessionID
 import com.sindrestephansen.bottle_deposit.model.deposit.DepositSessionState
+import com.sindrestephansen.bottle_deposit.model.deposit.value
 import org.slf4j.LoggerFactory
 
 class MemoryStorage : BottleDepositStorage {
@@ -25,7 +26,7 @@ class MemoryStorage : BottleDepositStorage {
 
             DepositSessionState(
                 session = request.session,
-                sum = oldValue.sum + request.type.value
+                sum = oldValue.sum + request.type.value()
             )
         } ?: throw IllegalArgumentException("Unknown deposit session ${request.session}")
 

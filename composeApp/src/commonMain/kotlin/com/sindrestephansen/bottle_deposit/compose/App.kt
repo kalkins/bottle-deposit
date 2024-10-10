@@ -4,18 +4,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.sindrestephansen.bottle_deposit.model.deposit.DepositType
+import com.sindrestephansen.bottle_deposit.model.deposit.processingTime
 import com.sindrestephansen.bottle_deposit.viewModel.DepositViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
-import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.Duration.Companion.seconds
 
 @Composable
 @Preview
@@ -27,6 +24,8 @@ fun App(
         val sessionState by viewModel.sessionState.collectAsStateWithLifecycle()
         val receipt by viewModel.receipt.collectAsStateWithLifecycle()
         val error by viewModel.error.collectAsStateWithLifecycle()
+
+        var canDeposit by remember { mutableStateOf(true) }
 
         Row(
             Modifier
@@ -40,14 +39,14 @@ fun App(
 
             DepositPane(
                 modifier = paneModifier,
+                canDeposit = canDeposit,
                 onDeposit = {
+                    canDeposit = false
+
                     scope.launch {
                         viewModel.deposit(it)
-                    }
-
-                    when (it) {
-                        DepositType.Bottle -> 1.seconds
-                        DepositType.Can -> 500.milliseconds
+                        delay(it.processingTime())
+                        canDeposit = true
                     }
                 },
             )
