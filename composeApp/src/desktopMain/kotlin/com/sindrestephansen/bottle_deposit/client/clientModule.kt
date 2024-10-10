@@ -24,7 +24,7 @@ val clientModule = module {
         }
     }
 
-    singleOf(::DesktopDepositAPIClient) {
+    singleOf(::BaseDepositAPIClient) {
         bind<DepositAPIClient>()
     }
 }

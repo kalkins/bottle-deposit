@@ -24,7 +24,7 @@ val clientModule = module {
         }
     }
 
-    singleOf(::WasmDepositAPIClient) {
+    singleOf(::BaseDepositAPIClient) {
         bind<DepositAPIClient>()
     }
 }

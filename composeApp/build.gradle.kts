@@ -46,21 +46,18 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.json)
             implementation(projects.shared)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.cio)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.json)
+            implementation(libs.ktor.client.engine.cio)
         }
         wasmJsMain.dependencies {
-            implementation(libs.ktor.client.core.wasm)
-            implementation(libs.ktor.client.js.wasm)
-            implementation(libs.ktor.client.content.negotiation.wasm)
-            implementation(libs.ktor.serialization.json.wasm)
+            implementation(libs.ktor.client.engine.js)
         }
     }
 }

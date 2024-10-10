@@ -8,7 +8,7 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 
-class WasmDepositAPIClient(
+class BaseDepositAPIClient(
     private val client: HttpClient,
 ) : DepositAPIClient {
     override suspend fun initSession(): DepositSessionID =
